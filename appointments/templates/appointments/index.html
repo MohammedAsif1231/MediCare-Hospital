@@ -1,0 +1,238 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MediCare Hospital | Your Health, Our Priority</title>
+
+    <link rel="stylesheet" href="{% static 'appointments/style.css' %}"></head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header>
+        <nav class="navbar">
+            <h2 class="logo">🏥 MediCare Hospital</h2>
+
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="#about">About</a>
+                <a href="#doctors">Doctors</a>
+                <a href="#services">Services</a>
+                <a href="#contact">Contact</a>
+
+                <a href="{% url 'booking' %}" class="book-btn">
+                    Book Appointment
+                </a>
+
+                {% if user.is_authenticated %}
+                    {% if user.patient_profile %}
+                        <a href="{% url 'patient_dashboard' %}">My Dashboard</a>
+                    {% elif user.username == 'dr_sharma' or user.username == 'dr_khan' or user.username == 'dr_reddy' %}
+                        <a href="{% url 'doctor_dashboard' %}">Doctor Dashboard</a>
+                    {% elif user.is_staff or user.is_superuser %}
+                        <a href="{% url 'receptionist' %}">Dashboard</a>
+                    {% endif %}
+                {% else %}
+                    <a href="{% url 'patient_login' %}">Patient Login</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content">
+
+            <h1>Your Health Is Our First Priority</h1>
+
+            <p>
+                Welcome to MediCare Hospital.
+                Get quality healthcare, expert doctors
+                and easy online appointment booking.
+            </p>
+
+            <a href="{% url 'booking' %}">
+                Book Your Appointment →
+            </a>
+
+        </div>
+    </section>
+
+    <!-- ACCOUNT SECTION -->
+    <section class="account-links">
+        <h2>Patient & Staff Portal</h2>
+
+        {% if user.is_authenticated %}
+
+            {% if user.patient_profile %}
+                <p>Welcome, {{ user.username }}!</p>
+
+                <a href="{% url 'patient_dashboard' %}">
+                    Patient Dashboard
+                </a>
+
+                <a href="{% url 'patient_logout' %}">
+                    Logout
+                </a>
+
+            {% elif user.username == 'dr_sharma' or user.username == 'dr_khan' or user.username == 'dr_reddy' %}
+                <p>Welcome, Doctor!</p>
+
+                <a href="{% url 'doctor_dashboard' %}" class="doctor">
+                    Doctor Dashboard
+                </a>
+
+                <a href="{% url 'doctor_logout' %}" class="doctor">
+                    Logout
+                </a>
+
+            {% elif user.is_staff or user.is_superuser %}
+                <p>Welcome, Receptionist!</p>
+
+                <a href="{% url 'receptionist' %}" class="receptionist">
+                    Receptionist Dashboard
+                </a>
+
+                <a href="{% url 'logout' %}" class="receptionist">
+                    Logout
+                </a>
+            {% endif %}
+
+        {% else %}
+
+            <a href="{% url 'patient_register' %}">
+                Patient Registration
+            </a>
+
+            <a href="{% url 'patient_login' %}">
+                Patient Login
+            </a>
+
+            <a href="{% url 'login' %}" class="receptionist">
+                Receptionist Login
+            </a>
+
+            <a href="{% url 'doctor_login' %}" class="doctor">
+                Doctor Login
+            </a>
+
+        {% endif %}
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section class="about" id="about">
+        <h2>About MediCare Hospital</h2>
+
+        <p>
+            MediCare Hospital is committed to providing
+            quality healthcare services with experienced
+            doctors, modern facilities and patient-focused care.
+            Your health and well-being are our priority.
+        </p>
+    </section>
+
+    <!-- DOCTORS SECTION -->
+    <section class="doctors" id="doctors">
+        <h2>Meet Our Doctors</h2>
+
+        <div class="doctor-container">
+
+            <div class="doctor-card">
+                <h3>Dr. Sharma</h3>
+                <p>General Physician</p>
+            </div>
+
+            <div class="doctor-card">
+                <h3>Dr. Khan</h3>
+                <p>Cardiologist</p>
+            </div>
+
+            <div class="doctor-card">
+                <h3>Dr. Reddy</h3>
+                <p>Dermatologist</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SERVICES SECTION -->
+    <section class="services" id="services">
+        <h2>Our Medical Services</h2>
+
+        <div class="service-container">
+
+            <div class="service-card">
+                <h3>General Checkup</h3>
+                <p>
+                    Regular health checkups and
+                    medical consultations.
+                </p>
+            </div>
+
+            <div class="service-card">
+                <h3>Expert Doctors</h3>
+                <p>
+                    Consult experienced healthcare
+                    professionals.
+                </p>
+            </div>
+
+            <div class="service-card">
+                <h3>Online Appointment</h3>
+                <p>
+                    Book your hospital appointment
+                    easily from anywhere.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- APPOINTMENT STATISTICS -->
+    <section class="statistics">
+        <h2>Hospital Appointment Overview</h2>
+
+        <div class="statistics-container">
+
+            <div class="stat-card">
+                <h3>Total Appointments</h3>
+                <h1>{{ total_appointments|default:0 }}</h1>
+            </div>
+
+            <div class="stat-card">
+                <h3>Pending</h3>
+                <h1>{{ pending_appointments|default:0 }}</h1>
+            </div>
+
+            <div class="stat-card">
+                <h3>Confirmed</h3>
+                <h1>{{ confirmed_appointments|default:0 }}</h1>
+            </div>
+
+            <div class="stat-card">
+                <h3>Completed</h3>
+                <h1>{{ completed_appointments|default:0 }}</h1>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section class="contact" id="contact">
+        <h2>Contact Us</h2>
+
+        <p><strong>MediCare Hospital</strong></p>
+        <p>Hyderabad, Telangana</p>
+        <p>Email: medicare@example.com</p>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2026 MediCare Hospital. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,412 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f7faff;
+    color: #172554;
+    line-height: 1.6;
+}
+
+a {
+    transition: 0.3s ease;
+}
+
+button {
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+/* Navigation */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 18px 5%;
+    background: #ffffff;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    color: #0755a5;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.nav-links a {
+    color: #172554;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.nav-links a:hover {
+    color: #0785d1;
+}
+
+.book-btn {
+    background: #0755a5;
+    color: white !important;
+    padding: 11px 18px;
+    border-radius: 25px;
+}
+
+.book-btn:hover {
+    background: #063d78;
+}
+
+/* Hero */
+.hero {
+    min-height: 430px;
+    display: flex;
+    align-items: center;
+    padding: 60px 6%;
+    background: linear-gradient(110deg, #e5f3ff, #ffffff);
+}
+
+.hero-content {
+    max-width: 600px;
+}
+
+.hero h1 {
+    font-size: 48px;
+    line-height: 1.2;
+    color: #102b59;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 18px;
+    margin-bottom: 25px;
+    color: #475569;
+}
+
+.hero a {
+    display: inline-block;
+    background: #0875ce;
+    color: white;
+    padding: 13px 24px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.hero a:hover {
+    background: #063d78;
+    transform: translateY(-2px);
+}
+
+/* Account Links */
+.account-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 25px;
+    padding: 45px 6%;
+    background: #f8fbff;
+}
+
+.account-links a {
+    display: block;
+    min-width: 220px;
+    padding: 22px;
+    text-align: center;
+    text-decoration: none;
+    color: #0755a5;
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+    font-weight: bold;
+}
+
+.account-links a:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 22px rgba(7, 85, 165, 0.15);
+}
+
+/* Common Sections */
+.about,
+.doctors,
+.services,
+.contact {
+    padding: 65px 8%;
+    text-align: center;
+}
+
+.about h2,
+.doctors h2,
+.services h2,
+.contact h2 {
+    font-size: 32px;
+    color: #0755a5;
+    margin-bottom: 20px;
+}
+
+.about p {
+    max-width: 750px;
+    margin: auto;
+    font-size: 17px;
+    color: #475569;
+}
+
+/* Doctors */
+.doctors {
+    background: #f1f8ff;
+}
+
+.doctor-container,
+.service-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.doctor-card {
+    background: white;
+    width: 260px;
+    padding: 28px;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+    transition: 0.3s;
+}
+
+.doctor-card:hover,
+.service-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 9px 24px rgba(7, 85, 165, 0.13);
+}
+
+.doctor-card h3,
+.service-card h3 {
+    color: #0755a5;
+    margin-bottom: 10px;
+}
+
+/* Services */
+.service-card {
+    background: #f1f8ff;
+    width: 260px;
+    padding: 30px 20px;
+    border-radius: 14px;
+    transition: 0.3s;
+}
+
+/* Statistics */
+.statistics {
+    padding: 55px 6%;
+    background: #0755a5;
+    color: white;
+    text-align: center;
+}
+
+.statistics h2 {
+    font-size: 30px;
+    margin-bottom: 30px;
+}
+
+.statistics-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 25px;
+}
+
+.stat-card {
+    min-width: 180px;
+    padding: 22px;
+    background: rgba(255, 255, 255, 0.13);
+    border-radius: 14px;
+}
+
+.stat-card h3 {
+    font-size: 32px;
+}
+
+/* Contact */
+.contact {
+    background: #eaf5ff;
+}
+
+.contact p {
+    margin: 8px 0;
+    color: #475569;
+}
+
+/* Footer */
+footer {
+    background: #073b75;
+    color: white;
+    text-align: center;
+    padding: 22px;
+}
+
+/* Booking and Dashboard Tables */
+.booking-section {
+    padding: 40px 6%;
+}
+
+.booking-container {
+    max-width: 1100px;
+    margin: auto;
+    overflow-x: auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.booking-container table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+.booking-container th,
+.booking-container td {
+    padding: 14px;
+    border-bottom: 1px solid #e2e8f0;
+    text-align: center;
+}
+
+.booking-container th {
+    background: #0755a5;
+    color: white;
+}
+
+.booking-container tr:hover td {
+    background: #f1f8ff;
+}
+
+/* Common Form Elements */
+input,
+select,
+textarea {
+    max-width: 100%;
+    font-family: Arial, sans-serif;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #0875ce !important;
+    box-shadow: 0 0 0 3px rgba(8, 117, 206, 0.12);
+}
+
+button:hover {
+    filter: brightness(0.92);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        padding: 16px 4%;
+    }
+
+    .nav-links {
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .hero {
+        min-height: 350px;
+        padding: 45px 6%;
+    }
+
+    .hero h1 {
+        font-size: 34px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .about,
+    .doctors,
+    .services,
+    .contact {
+        padding: 45px 6%;
+    }
+
+    .about h2,
+    .doctors h2,
+    .services h2,
+    .contact h2 {
+        font-size: 27px;
+    }
+
+    .doctor-container,
+    .service-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .doctor-card,
+    .service-card {
+        width: 100%;
+        max-width: 340px;
+    }
+
+    .statistics-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .stat-card {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .booking-section {
+        padding: 25px 4%;
+    }
+
+    .booking-container th,
+    .booking-container td {
+        padding: 10px;
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        font-size: 22px;
+    }
+
+    .nav-links {
+        gap: 10px;
+    }
+
+    .nav-links a {
+        font-size: 14px;
+    }
+
+    .hero h1 {
+        font-size: 29px;
+    }
+
+    .hero a {
+        padding: 11px 19px;
+    }
+}

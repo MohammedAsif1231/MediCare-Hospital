@@ -1,0 +1,258 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient History - MediCare Hospital</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px 15px;
+            font-family: Arial, sans-serif;
+            background: #f1f6fa;
+            color: #243447;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 25px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+        }
+
+        .header {
+            text-align: center;
+            padding-bottom: 22px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .header h1 {
+            color: #087f8c;
+            margin: 0 0 8px;
+            font-size: 27px;
+        }
+
+        .header p {
+            color: #64748b;
+            margin: 0;
+        }
+
+        h2 {
+            color: #075985;
+            text-align: center;
+            margin: 25px 0;
+            font-size: 22px;
+        }
+
+        .search-box {
+            background: #f8fafc;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        form {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        input {
+            padding: 12px 15px;
+            width: 300px;
+            max-width: 100%;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 14px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #087f8c;
+            box-shadow: 0 0 0 2px rgba(8, 127, 140, 0.1);
+        }
+
+        button {
+            background: #087f8c;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #075985;
+        }
+
+        .results-heading {
+            color: #334155;
+            font-size: 16px;
+            margin: 20px 0;
+            overflow-wrap: anywhere;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 9px;
+        }
+
+        table {
+            width: 100%;
+            min-width: 650px;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #087f8c;
+            color: white;
+            padding: 15px 12px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 14px;
+        }
+
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        tr:hover {
+            background: #ecfeff;
+        }
+
+        .message {
+            text-align: center;
+            padding: 25px;
+            background: #f8fafc;
+            color: #64748b;
+            border-radius: 8px;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 20px;
+            background: #087f8c;
+            color: white;
+            text-decoration: none;
+            border-radius: 7px;
+            font-weight: bold;
+        }
+
+        .back:hover {
+            background: #075985;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            input {
+                width: 100%;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>MediCare Hospital</h1>
+        <p>Your Health, Our Priority</p>
+    </div>
+
+    <h2>Patient Appointment History</h2>
+
+    <div class="search-box">
+
+        <form method="GET">
+
+            <input
+                type="text"
+                name="mobile"
+                value="{{ mobile_number }}"
+                placeholder="Enter patient mobile number"
+                required
+            >
+
+            <button type="submit">Search History</button>
+
+        </form>
+
+    </div>
+
+    {% if mobile_number %}
+
+        <h3 class="results-heading">
+            Search Results: {{ mobile_number }}
+        </h3>
+
+        {% if appointments %}
+
+            <div class="table-wrapper">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Patient Name</th>
+                            <th>Doctor</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for appointment in appointments %}
+                            <tr>
+                                <td>{{ appointment.patient_name }}</td>
+                                <td>{{ appointment.doctor }}</td>
+                                <td>{{ appointment.appointment_date|date:"d-m-Y" }}</td>
+                                <td>{{ appointment.appointment_time|time:"h:i A" }}</td>
+                                <td>{{ appointment.status }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+
+        {% else %}
+
+            <p class="message">No appointment history found.</p>
+
+        {% endif %}
+
+    {% endif %}
+
+    <a href="{% url 'receptionist' %}" class="back">
+        Back to Dashboard
+    </a>
+
+</div>
+
+</body>
+</html>

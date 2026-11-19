@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Login - MediCare Hospital</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px 15px;
+            font-family: Arial, sans-serif;
+            background: #f1f6fa;
+            color: #243447;
+        }
+
+        .container {
+            max-width: 440px;
+            margin: 55px auto;
+            padding: 35px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 22px rgba(0, 0, 0, 0.07);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .logo h1 {
+            color: #087f8c;
+            font-size: 27px;
+            margin: 0 0 9px;
+        }
+
+        .logo p {
+            color: #64748b;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        h2 {
+            text-align: center;
+            color: #075985;
+            font-size: 21px;
+            margin: 25px 0;
+        }
+
+        label {
+            display: block;
+            margin-top: 19px;
+            margin-bottom: 7px;
+            font-weight: bold;
+            font-size: 14px;
+            color: #334155;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 14px;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border-color: #087f8c;
+            box-shadow: 0 0 0 3px rgba(8, 127, 140, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 26px;
+            background: #087f8c;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #075985;
+        }
+
+        .register-link {
+            display: block;
+            margin-top: 23px;
+            text-align: center;
+            color: #087f8c;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .register-link:hover {
+            text-decoration: underline;
+        }
+
+        .errorlist, .error {
+            color: #dc2626;
+            font-size: 13px;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                padding: 25px 20px;
+                margin: 30px auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">
+        <h1>MediCare Hospital</h1>
+        <p>Your Health, Our Priority</p>
+    </div>
+
+    <h2>Patient Login</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <input type="hidden" name="next" value="{{ request.GET.next }}">
+
+        {% if form.non_field_errors %}
+            <div class="error">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <label>Username</label>
+        {{ form.username }}
+        {{ form.username.errors }}
+
+        <label>Password</label>
+        {{ form.password }}
+        {{ form.password.errors }}
+
+        <button type="submit">Login</button>
+    </form>
+
+    <a href="{% url 'patient_register' %}{% if request.GET.next %}?next={{ request.GET.next|urlencode }}{% endif %}"
+       class="register-link">
+        New patient? Create an account
+    </a>
+
+</div>
+
+</body>
+</html>

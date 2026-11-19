@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Registration - MediCare Hospital</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px 15px;
+            font-family: Arial, sans-serif;
+            background: #f1f6fa;
+            color: #243447;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 25px auto;
+            background: white;
+            padding: 32px;
+            border-radius: 15px;
+            box-shadow: 0 5px 22px rgba(0, 0, 0, 0.07);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .logo h1 {
+            color: #087f8c;
+            font-size: 27px;
+            margin: 0 0 8px;
+        }
+
+        .logo p {
+            color: #64748b;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        h2 {
+            text-align: center;
+            color: #075985;
+            font-size: 21px;
+            margin: 25px 0;
+        }
+
+        label {
+            display: block;
+            margin-top: 17px;
+            margin-bottom: 7px;
+            font-weight: bold;
+            font-size: 14px;
+            color: #334155;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 14px;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border-color: #087f8c;
+            box-shadow: 0 0 0 3px rgba(8, 127, 140, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 25px;
+            background: #087f8c;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #075985;
+        }
+
+        .login-link {
+            display: block;
+            margin-top: 22px;
+            text-align: center;
+            color: #087f8c;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .login-link:hover {
+            text-decoration: underline;
+        }
+
+        .errorlist {
+            color: #dc2626;
+            font-size: 13px;
+            padding-left: 18px;
+            margin: 6px 0;
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">
+        <h1>MediCare Hospital</h1>
+        <p>Your Health, Our Priority</p>
+    </div>
+
+    <h2>Create Patient Account</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <input type="hidden" name="next" value="{{ request.GET.next }}">
+
+        <label>Username</label>
+        {{ form.username }}
+        {{ form.username.errors }}
+
+        <label>Email Address</label>
+        {{ form.email }}
+        {{ form.email.errors }}
+
+        <label>Mobile Number</label>
+        <input
+            type="tel"
+            name="mobile_number"
+            placeholder="Enter mobile number"
+            maxlength="15"
+            required
+        >
+
+        <label>Password</label>
+        {{ form.password1 }}
+        {{ form.password1.errors }}
+
+        <label>Confirm Password</label>
+        {{ form.password2 }}
+        {{ form.password2.errors }}
+
+        <button type="submit">Create Account</button>
+    </form>
+
+    <a href="{% url 'patient_login' %}{% if request.GET.next %}?next={{ request.GET.next|urlencode }}{% endif %}"
+       class="login-link">
+        Already have an account? Login
+    </a>
+
+</div>
+
+</body>
+</html>

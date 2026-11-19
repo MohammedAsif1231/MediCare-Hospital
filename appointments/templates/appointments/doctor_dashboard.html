@@ -1,0 +1,252 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard - MediCare Hospital</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 25px 15px;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .header {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            color: #087f8c;
+            margin: 0 0 12px;
+        }
+
+        h2 {
+            margin-top: 30px;
+        }
+
+        .welcome {
+            color: #64748b;
+        }
+
+        .logout {
+            background: #dc2626;
+            color: white;
+            padding: 11px 18px;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .logout:hover {
+            background: #b91c1c;
+        }
+
+        .count {
+            background: white;
+            padding: 22px;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+            border-left: 5px solid #087f8c;
+        }
+
+        .count h3 {
+            margin: 0;
+            color: #087f8c;
+        }
+
+        .table-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 1000px;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: left;
+        }
+
+        th {
+            background: #087f8c;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+        }
+
+        .status-form {
+            display: flex;
+            gap: 6px;
+        }
+
+        select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 8px 12px;
+            background: #087f8c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #066873;
+        }
+
+        @media(max-width: 600px) {
+            body {
+                padding: 15px 10px;
+            }
+
+            .header, .table-card {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <div>
+            <h1>MediCare Hospital</h1>
+            <h2 class="welcome">Welcome, {{ doctor_name }}</h2>
+            <p>Doctor Dashboard</p>
+        </div>
+
+        <a href="{% url 'doctor_logout' %}" class="logout">
+            Logout
+        </a>
+    </div>
+
+    <div class="count">
+        <h3>Total Appointments: {{ appointments|length }}</h3>
+    </div>
+
+    <div class="table-card">
+
+        <h2>My Patient Appointments</h2>
+
+        <div class="table-wrapper">
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Patient Name</th>
+                        <th>Mobile</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                        <th>Update Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for appointment in appointments %}
+
+                    <tr>
+                        <td>{{ appointment.id }}</td>
+                        <td>{{ appointment.patient_name }}</td>
+                        <td>{{ appointment.mobile_number }}</td>
+                        <td>{{ appointment.appointment_date|date:"d-m-Y" }}</td>
+                        <td>{{ appointment.appointment_time|time:"h:i A" }}</td>
+                        <td>{{ appointment.reason|default:"Not provided" }}</td>
+                        <td>{{ appointment.status }}</td>
+
+                        <td>
+                            {% if appointment.status == 'Pending' or appointment.status == 'Confirmed' %}
+
+                            <form method="POST" class="status-form">
+                                {% csrf_token %}
+
+                                <input type="hidden" name="appointment_id"
+                                       value="{{ appointment.id }}">
+
+                                <select name="status">
+                                    {% if appointment.status == 'Pending' %}
+                                    <option value="Confirmed">Confirmed</option>
+                                    {% endif %}
+                                    <option value="Completed">Completed</option>
+                                </select>
+
+                                <button type="submit">Update</button>
+                            </form>
+
+                            {% else %}
+                                Not Available
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="8" class="empty">
+                            No appointments available.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

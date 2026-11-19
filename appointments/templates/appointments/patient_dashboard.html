@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard - MediCare Hospital</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px 15px;
+            font-family: Arial, sans-serif;
+            background: #f1f6fa;
+            color: #243447;
+        }
+
+        .container {
+            max-width: 1150px;
+            margin: auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #087f8c, #075985);
+            color: white;
+            padding: 28px;
+            border-radius: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 4px 15px rgba(8, 127, 140, 0.15);
+        }
+
+        .header h1 {
+            margin: 0 0 12px;
+            font-size: 27px;
+        }
+
+        .header h2 {
+            margin: 0 0 12px;
+            font-size: 20px;
+            font-weight: normal;
+        }
+
+        .header p {
+            margin: 7px 0;
+            color: #e0f2fe;
+            font-size: 14px;
+        }
+
+        .logout, .book, .cancel {
+            display: inline-block;
+            padding: 11px 17px;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .logout, .cancel {
+            background: #dc2626;
+        }
+
+        .logout:hover, .cancel:hover {
+            background: #b91c1c;
+        }
+
+        .book {
+            background: #087f8c;
+            margin: 22px 0;
+        }
+
+        .book:hover {
+            background: #075985;
+        }
+
+        .table-card {
+            background: white;
+            padding: 25px;
+            margin-top: 5px;
+            border-radius: 14px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .table-card h2 {
+            color: #075985;
+            margin: 0 0 22px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 850px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th {
+            background: #087f8c;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        .status {
+            font-weight: bold;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+        }
+
+        @media(max-width: 600px) {
+            body {
+                padding: 15px 10px;
+            }
+
+            .header, .table-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <div>
+            <h1>MediCare Hospital</h1>
+            <h2>Welcome, {{ patient.user.username }}</h2>
+            <p>Mobile: {{ patient.mobile_number }}</p>
+            <p>Email: {{ patient.user.email|default:"Not provided" }}</p>
+        </div>
+
+        <a href="{% url 'patient_logout' %}" class="logout">
+            Logout
+        </a>
+    </div>
+
+    <a href="{% url 'booking' %}" class="book">
+        + Book New Appointment
+    </a>
+
+    <div class="table-card">
+
+        <h2>My Appointments</h2>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Patient Name</th>
+                        <th>Doctor</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for appointment in appointments %}
+                    <tr>
+                        <td>{{ appointment.id }}</td>
+                        <td>{{ appointment.patient_name }}</td>
+                        <td>{{ appointment.doctor }}</td>
+                        <td>{{ appointment.appointment_date|date:"d-m-Y" }}</td>
+                        <td>{{ appointment.appointment_time|time:"h:i A" }}</td>
+                        <td>{{ appointment.reason|default:"Not provided" }}</td>
+
+                        <td class="status">
+                            {{ appointment.status }}
+                        </td>
+
+                        <td>
+                            {% if appointment.status == 'Pending' or appointment.status == 'Confirmed' %}
+                                <form method="POST"
+                                      action="{% url 'cancel_patient_appointment' appointment.id %}"
+                                      onsubmit="return confirm('Are you sure you want to cancel this appointment?');">
+
+                                    {% csrf_token %}
+
+                                    <button type="submit" class="cancel">
+                                        Cancel
+                                    </button>
+                                </form>
+                            {% else %}
+                                Not Available
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="empty">
+                            No appointments found. Book your first appointment!
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

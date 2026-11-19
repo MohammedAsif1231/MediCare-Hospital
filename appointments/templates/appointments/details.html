@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Details - MediCare Hospital</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px 15px;
+            font-family: Arial, sans-serif;
+            background: #f1f6fa;
+            color: #243447;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 35px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+        }
+
+        .header {
+            text-align: center;
+            padding-bottom: 22px;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            color: #087f8c;
+            margin: 0 0 8px;
+            font-size: 26px;
+        }
+
+        .header p {
+            color: #64748b;
+            margin: 0;
+            font-size: 14px;
+        }
+
+        h2 {
+            color: #075985;
+            text-align: center;
+            margin: 22px 0;
+            font-size: 21px;
+        }
+
+        .detail {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 15px 12px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 14px;
+        }
+
+        .detail strong {
+            color: #475569;
+            min-width: 175px;
+        }
+
+        .detail span {
+            color: #1e293b;
+            text-align: right;
+            overflow-wrap: anywhere;
+        }
+
+        .back {
+            display: block;
+            width: fit-content;
+            margin: 28px auto 0;
+            padding: 12px 22px;
+            background: #087f8c;
+            color: white;
+            text-decoration: none;
+            border-radius: 7px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .back:hover {
+            background: #075985;
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            .detail {
+                flex-direction: column;
+                gap: 7px;
+            }
+
+            .detail span {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>MediCare Hospital</h1>
+        <p>Your Health, Our Priority</p>
+    </div>
+
+    <h2>Appointment Details</h2>
+
+    <div class="detail">
+        <strong>Appointment ID:</strong>
+        <span>{{ appointment.id }}</span>
+    </div>
+
+    <div class="detail">
+        <strong>Patient Name:</strong>
+        <span>{{ appointment.patient_name }}</span>
+    </div>
+
+    <div class="detail">
+        <strong>Mobile Number:</strong>
+        <span>{{ appointment.mobile_number }}</span>
+    </div>
+
+    <div class="detail">
+        <strong>Email:</strong>
+        <span>{{ appointment.email }}</span>
+    </div>
+
+    <div class="detail">
+        <strong>Doctor:</strong>
+        <span>{{ appointment.doctor }}</span>
+    </div>
+
+    <div class="detail">
+        <strong>Appointment Date:</strong>
+        <span>{{ appointment.appointment_date|date:"d-m-Y" }}</span>
+    </div>
+
+    <div class="detail">
+        <strong>Appointment Time:</strong>
+        <span>{{ appointment.appointment_time|time:"h:i A" }}</span>
+    </div>
+
+    <div class="detail">
+        <strong>Reason:</strong>
+        <span>{{ appointment.reason|default:"Not provided" }}</span>
+    </div>
+
+    <div class="detail">
+        <strong>Status:</strong>
+        <span>{{ appointment.status }}</span>
+    </div>
+
+    <a href="{% url 'receptionist' %}" class="back">
+        Back to Dashboard
+    </a>
+
+</div>
+
+</body>
+</html>
