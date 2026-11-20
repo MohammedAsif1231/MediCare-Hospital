@@ -1,4 +1,10 @@
 
+/* =====================================
+   MEDICARE HOSPITAL - MAIN CSS
+   Premium Teal + Navy Theme
+===================================== */
+
+/* GLOBAL */
 * {
     margin: 0;
     padding: 0;
@@ -11,8 +17,8 @@ html {
 
 body {
     font-family: Arial, sans-serif;
-    background: #f7faff;
-    color: #172554;
+    background: #F4FAFA;
+    color: #183B45;
     line-height: 1.6;
 }
 
@@ -25,104 +31,129 @@ button {
     transition: 0.3s ease;
 }
 
-/* Navigation */
+/* NAVBAR */
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
     gap: 15px;
-    padding: 18px 5%;
-    background: #ffffff;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+    padding: 20px 5%;
+    background: #FFFFFF;
+    border-bottom: 1px solid #D6EAE8;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
     position: sticky;
     top: 0;
     z-index: 100;
+    backdrop-filter: blur(12px);
 }
 
 .logo {
-    color: #0755a5;
-    font-size: 25px;
+    color: #087E8B;
+    font-size: 27px;
     font-weight: bold;
+    letter-spacing: -0.5px;
 }
 
 .nav-links {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 24px;
 }
 
 .nav-links a {
-    color: #172554;
+    color: #183B45;
     text-decoration: none;
+    font-size: 15px;
     font-weight: 600;
 }
 
 .nav-links a:hover {
-    color: #0785d1;
+    color: #087E8B;
 }
 
+.nav-links .book-btn,
 .book-btn {
-    background: #0755a5;
-    color: white !important;
-    padding: 11px 18px;
-    border-radius: 25px;
+    background: #087E8B;
+    color: #FFFFFF !important;
+    padding: 12px 22px;
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 0 5px 14px rgba(8, 126, 139, 0.16);
 }
 
+.nav-links .book-btn:hover,
 .book-btn:hover {
-    background: #063d78;
+    background: #075B68;
+    transform: translateY(-2px);
 }
 
-/* Hero */
+/* HERO SECTION */
 .hero {
-    min-height: 430px;
+    min-height: 490px;
     display: flex;
     align-items: center;
-    padding: 60px 6%;
-    background: linear-gradient(110deg, #e5f3ff, #ffffff);
+    padding: 80px 8%;
+    background:
+        radial-gradient(circle at 85% 20%, rgba(8, 126, 139, 0.13), transparent 30%),
+        linear-gradient(120deg, #D7F3F0, #F4FAFA, #E3F2FF);
+    position: relative;
+    overflow: hidden;
 }
 
 .hero-content {
-    max-width: 600px;
+    max-width: 650px;
 }
 
 .hero h1 {
-    font-size: 48px;
-    line-height: 1.2;
-    color: #102b59;
-    margin-bottom: 20px;
+    font-size: clamp(36px, 5vw, 55px);
+    line-height: 1.15;
+    letter-spacing: -1.5px;
+    color: #123B4A;
+    margin-bottom: 22px;
 }
 
 .hero p {
+    max-width: 550px;
     font-size: 18px;
+    line-height: 1.8;
+    color: #526B75;
     margin-bottom: 25px;
-    color: #475569;
 }
 
 .hero a {
     display: inline-block;
-    background: #0875ce;
-    color: white;
-    padding: 13px 24px;
-    border-radius: 25px;
+    background: #087E8B;
+    color: #FFFFFF;
+    padding: 15px 28px;
+    border-radius: 8px;
     text-decoration: none;
     font-weight: bold;
+    box-shadow: 0 7px 18px rgba(8, 126, 139, 0.18);
 }
 
 .hero a:hover {
-    background: #063d78;
-    transform: translateY(-2px);
+    background: #075B68;
+    transform: translateY(-3px);
 }
 
-/* Account Links */
+/* PATIENT AND STAFF PORTAL */
 .account-links {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 25px;
-    padding: 45px 6%;
-    background: #f8fbff;
+    gap: 22px;
+    padding: 55px 6%;
+    background: linear-gradient(180deg, #F0F8F8, #EAF5F5);
+}
+
+.account-links h2 {
+    width: 100%;
+    text-align: center;
+    font-size: 30px;
+    color: #123B4A;
+    margin-bottom: 10px;
 }
 
 .account-links a {
@@ -131,46 +162,69 @@ button {
     padding: 22px;
     text-align: center;
     text-decoration: none;
-    color: #0755a5;
-    background: white;
-    border-radius: 14px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+    color: #087E8B;
+    background: #FFFFFF;
+    border: 1px solid #D6EAE8;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     font-weight: bold;
 }
 
 .account-links a:hover {
+    background: #E8F5F4;
+    border-color: #8BCBCB;
     transform: translateY(-5px);
-    box-shadow: 0 8px 22px rgba(7, 85, 165, 0.15);
+    box-shadow: 0 8px 22px rgba(8, 126, 139, 0.12);
 }
 
-/* Common Sections */
+/* COMMON SECTIONS */
 .about,
 .doctors,
 .services,
 .contact {
-    padding: 65px 8%;
+    padding: 70px 8%;
     text-align: center;
 }
 
 .about h2,
 .doctors h2,
 .services h2,
-.contact h2 {
-    font-size: 32px;
-    color: #0755a5;
-    margin-bottom: 20px;
+.contact h2,
+.statistics h2 {
+    font-size: 34px;
+    letter-spacing: -0.5px;
+    margin-bottom: 22px;
+}
+
+/* ABOUT */
+.about {
+    background: linear-gradient(135deg, #FFFFFF, #EDF7F7);
+}
+
+.about h2 {
+    color: #087E8B;
 }
 
 .about p {
-    max-width: 750px;
+    max-width: 850px;
     margin: auto;
+    padding: 30px 35px;
+    background: #F0F8F8;
+    border: 1px solid #D6EAE8;
+    border-radius: 16px;
+    color: #526B75;
     font-size: 17px;
-    color: #475569;
+    line-height: 1.9;
+    box-shadow: 0 8px 25px rgba(8, 126, 139, 0.05);
 }
 
-/* Doctors */
+/* DOCTORS */
 .doctors {
-    background: #f1f8ff;
+    background: linear-gradient(135deg, #EAF5F5, #F5FBFC);
+}
+
+.doctors h2 {
+    color: #087E8B;
 }
 
 .doctor-container,
@@ -183,85 +237,123 @@ button {
 }
 
 .doctor-card {
-    background: white;
     width: 260px;
-    padding: 28px;
-    border-radius: 14px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
-    transition: 0.3s;
+    padding: 32px 25px;
+    background: #FFFFFF;
+    border: 1px solid #D6EAE8;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: 0.3s ease;
+}
+
+.doctor-card h3,
+.service-card h3 {
+    color: #087E8B;
+    margin-bottom: 10px;
 }
 
 .doctor-card:hover,
 .service-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 9px 24px rgba(7, 85, 165, 0.13);
+    box-shadow: 0 9px 24px rgba(8, 126, 139, 0.13);
 }
 
-.doctor-card h3,
-.service-card h3 {
-    color: #0755a5;
-    margin-bottom: 10px;
+/* SERVICES */
+.services {
+    background: linear-gradient(135deg, #FFFFFF, #F0F8F8);
 }
 
-/* Services */
+.services h2 {
+    color: #087E8B;
+}
+
 .service-card {
-    background: #f1f8ff;
     width: 260px;
     padding: 30px 20px;
-    border-radius: 14px;
-    transition: 0.3s;
+    background: #E8F5F4;
+    border: 1px solid #D6EAE8;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: 0.3s ease;
 }
 
-/* Statistics */
+/* HOW TO BOOK APPOINTMENT */
 .statistics {
-    padding: 55px 6%;
-    background: #0755a5;
-    color: white;
+    padding: 65px 6%;
     text-align: center;
+    background:
+        radial-gradient(circle at 10% 10%, rgba(255,255,255,0.10), transparent 30%),
+        linear-gradient(120deg, #075B68, #087E8B);
 }
 
 .statistics h2 {
-    font-size: 30px;
-    margin-bottom: 30px;
+    color: #FFFFFF;
+    margin-bottom: 38px;
 }
 
 .statistics-container {
+    max-width: 1150px;
+    margin: auto;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 25px;
+    gap: 22px;
 }
 
 .stat-card {
-    min-width: 180px;
-    padding: 22px;
-    background: rgba(255, 255, 255, 0.13);
-    border-radius: 14px;
+    flex: 1 1 220px;
+    min-width: 200px;
+    padding: 30px 22px;
+    background: #FFFFFF;
+    color: #183B45;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 35, 75, 0.15);
+    transition: 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 14px 30px rgba(0, 35, 75, 0.22);
 }
 
 .stat-card h3 {
-    font-size: 32px;
+    font-size: 19px;
+    line-height: 1.4;
+    color: #087E8B;
+    margin-bottom: 12px;
 }
 
-/* Contact */
+.stat-card p {
+    font-size: 15px;
+    color: #607780;
+    line-height: 1.7;
+}
+
+/* CONTACT */
 .contact {
-    background: #eaf5ff;
+    background: linear-gradient(135deg, #DDF1EF, #F0F8F8);
+}
+
+.contact h2 {
+    color: #075B68;
 }
 
 .contact p {
     margin: 8px 0;
-    color: #475569;
+    color: #526B75;
 }
 
-/* Footer */
+/* FOOTER */
 footer {
-    background: #073b75;
-    color: white;
+    background: #123B4A;
+    color: #FFFFFF;
     text-align: center;
-    padding: 22px;
+    padding: 25px 15px;
+    letter-spacing: 0.3px;
 }
 
-/* Booking and Dashboard Tables */
+/* BOOKING AND DASHBOARD TABLES */
 .booking-section {
     padding: 40px 6%;
 }
@@ -270,7 +362,7 @@ footer {
     max-width: 1100px;
     margin: auto;
     overflow-x: auto;
-    background: white;
+    background: #FFFFFF;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
 }
@@ -278,26 +370,26 @@ footer {
 .booking-container table {
     width: 100%;
     border-collapse: collapse;
-    background: white;
+    background: #FFFFFF;
 }
 
 .booking-container th,
 .booking-container td {
     padding: 14px;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid #D6EAE8;
     text-align: center;
 }
 
 .booking-container th {
-    background: #0755a5;
-    color: white;
+    background: #087E8B;
+    color: #FFFFFF;
 }
 
 .booking-container tr:hover td {
-    background: #f1f8ff;
+    background: #F0F8F8;
 }
 
-/* Common Form Elements */
+/* COMMON FORM ELEMENTS */
 input,
 select,
 textarea {
@@ -309,16 +401,17 @@ input:focus,
 select:focus,
 textarea:focus {
     outline: none;
-    border-color: #0875ce !important;
-    box-shadow: 0 0 0 3px rgba(8, 117, 206, 0.12);
+    border-color: #087E8B !important;
+    box-shadow: 0 0 0 3px rgba(8, 126, 139, 0.12);
 }
 
 button:hover {
     filter: brightness(0.92);
 }
 
-/* Responsive Design */
+/* RESPONSIVE DESIGN */
 @media (max-width: 768px) {
+
     .navbar {
         flex-direction: column;
         padding: 16px 4%;
@@ -330,12 +423,12 @@ button:hover {
     }
 
     .hero {
-        min-height: 350px;
-        padding: 45px 6%;
+        min-height: 380px;
+        padding: 55px 6%;
     }
 
     .hero h1 {
-        font-size: 34px;
+        font-size: 36px;
     }
 
     .hero p {
@@ -346,14 +439,20 @@ button:hover {
     .doctors,
     .services,
     .contact {
-        padding: 45px 6%;
+        padding: 50px 6%;
     }
 
     .about h2,
     .doctors h2,
     .services h2,
-    .contact h2 {
-        font-size: 27px;
+    .contact h2,
+    .statistics h2 {
+        font-size: 28px;
+    }
+
+    .about p {
+        padding: 22px 18px;
+        font-size: 15px;
     }
 
     .doctor-container,
@@ -370,12 +469,12 @@ button:hover {
 
     .statistics-container {
         flex-direction: column;
-        align-items: center;
+        align-items: stretch;
     }
 
     .stat-card {
         width: 100%;
-        max-width: 320px;
+        min-width: 0;
     }
 
     .booking-section {
@@ -390,6 +489,7 @@ button:hover {
 }
 
 @media (max-width: 480px) {
+
     .logo {
         font-size: 22px;
     }
@@ -408,5 +508,9 @@ button:hover {
 
     .hero a {
         padding: 11px 19px;
+    }
+
+    .account-links h2 {
+        font-size: 25px;
     }
 }
