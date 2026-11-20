@@ -3,425 +3,390 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Appointment - MediCare Hospital</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book Appointment - MediCare Hospital</title>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: #f1f8ff;
-            color: #172554;
-            min-height: 100vh;
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 18px 6%;
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-        }
-
-        .logo {
-            color: #0755a5;
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .navbar a {
-            text-decoration: none;
-            color: #0755a5;
-            font-weight: bold;
-        }
-
-        .page-heading {
-            text-align: center;
-            padding: 35px 15px 15px;
-        }
-
-        .page-heading h1 {
-            color: #0755a5;
-            font-size: 32px;
-            margin-bottom: 8px;
-        }
-
-        .page-heading p {
-            color: #64748b;
-        }
-
-        .container {
-            max-width: 650px;
-            margin: 20px auto 50px;
-            padding: 35px;
-            background: white;
-            border-radius: 14px;
-            box-shadow: 0 5px 22px rgba(0,0,0,0.08);
-        }
-
-        .container h2 {
-            color: #102b59;
-            margin-bottom: 22px;
-            font-size: 23px;
-        }
-
-        label {
-            display: block;
-            margin-top: 17px;
-            font-weight: bold;
-            color: #243b60;
-        }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 13px;
-            margin-top: 7px;
-            border: 1px solid #cbd5e1;
-            border-radius: 7px;
-            font-size: 15px;
-            font-family: Arial, sans-serif;
-            background: white;
-        }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: #0875ce;
-            box-shadow: 0 0 0 3px rgba(8,117,206,0.1);
-        }
-
-        input[readonly] {
-            background: #f1f5f9;
-            cursor: not-allowed;
-        }
-
-        textarea {
-            resize: vertical;
-        }
-
-        button {
-            width: 100%;
-            margin-top: 25px;
-            padding: 15px;
-            background: #0755a5;
-            color: white;
-            border: none;
-            border-radius: 7px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        button:hover {
-            background: #063d78;
-        }
-
-        .message {
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 7px;
-        }
-
-        .success {
-            background: #dcfce7;
-            color: #166534;
-        }
-
-        .error {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        .patient-info {
-            background: #e5f3ff;
-            padding: 14px;
-            border-radius: 7px;
-            color: #0755a5;
-            margin-bottom: 15px;
-        }
-
-        .time-info {
-            margin-top: 9px;
-            color: #64748b;
-            font-size: 13px;
-        }
-
-        #slot-message {
-            margin-top: 10px;
-            font-size: 14px;
-            color: #0755a5;
-        }
-
-        .links {
-            text-align: center;
-            margin-top: 22px;
-        }
-
-        .links a {
-            color: #0755a5;
-            text-decoration: none;
-            margin: 8px;
-            font-weight: bold;
-        }
-
-        .links a:hover {
-            text-decoration: underline;
-        }
-
-        footer {
-            background: #073b75;
-            color: white;
-            text-align: center;
-            padding: 18px;
-        }
-
-        @media(max-width: 600px) {
-            .navbar {
-                flex-direction: column;
-                gap: 12px;
-            }
-
-            .container {
-                margin: 20px 15px 35px;
-                padding: 22px;
-            }
-
-            .page-heading h1 {
-                font-size: 27px;
-            }
-        }
-    </style>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,sans-serif;background:#f1f8ff;color:#172554;min-height:100vh}
+.navbar{display:flex;justify-content:space-between;align-items:center;padding:18px 6%;background:white;box-shadow:0 2px 10px #0001}
+.logo{color:#0755a5;font-size:24px;font-weight:bold}
+.navbar a,.links a{color:#0755a5;text-decoration:none;font-weight:bold}
+.page-heading{text-align:center;padding:35px 15px 15px}
+.page-heading h1{color:#0755a5;font-size:32px;margin-bottom:8px}
+.page-heading p{color:#64748b}
+.container{max-width:650px;margin:20px auto 50px;padding:35px;background:white;border-radius:14px;box-shadow:0 5px 22px #0001}
+.container h2{color:#102b59;margin-bottom:22px;font-size:23px}
+label{display:block;margin-top:17px;font-weight:bold;color:#243b60}
+input,select,textarea{width:100%;padding:13px;margin-top:7px;border:1px solid #cbd5e1;border-radius:7px;font-size:15px;font-family:Arial;background:white}
+input[readonly]{background:#f1f5f9;cursor:not-allowed}
+textarea{resize:vertical}
+.submit-btn{width:100%;margin-top:25px;padding:15px;background:#0755a5;color:white;border:0;border-radius:7px;font-size:16px;font-weight:bold;cursor:pointer}
+.submit-btn:hover{background:#063d78}
+.message{padding:15px;margin-bottom:20px;border-radius:7px}
+.success{background:#dcfce7;color:#166534}
+.error{background:#fee2e2;color:#991b1b}
+.patient-info{background:#e5f3ff;padding:14px;border-radius:7px;color:#0755a5;margin-bottom:15px}
+.calendar-box{margin-top:10px;padding:15px;border:1px solid #dbeafe;border-radius:10px}
+.calendar-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
+.calendar-header h3{color:#0755a5}
+.calendar-header button{width:38px;height:35px;padding:0;background:#e0efff;color:#0755a5;border:0;border-radius:6px;cursor:pointer}
+.calendar-legend,.time-legend{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px;color:#475569;margin-bottom:15px}
+.dot{width:11px;height:11px;border-radius:50%;display:inline-block}
+.green-dot{background:#16a34a}
+.red-dot{background:#dc2626;margin-left:12px}
+.grey-dot{background:#94a3b8;margin-left:12px}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;text-align:center}
+.calendar-grid span{font-size:13px;font-weight:bold;padding:8px 0;color:#475569}
+.calendar-day{min-height:38px;border:0;border-radius:7px;font-size:14px;font-weight:bold;cursor:pointer;margin:0;padding:5px}
+.calendar-day.available,.time-slot.available{background:#dcfce7;color:#166534}
+.calendar-day.available:hover,.calendar-day.selected,.time-slot.available:hover,.time-slot.selected{background:#16a34a;color:white}
+.calendar-day.booked,.time-slot.booked{background:#fee2e2;color:#991b1b;cursor:not-allowed}
+.calendar-day.past,.time-slot.unavailable{background:#f1f5f9;color:#94a3b8;cursor:not-allowed}
+.calendar-day.empty{visibility:hidden}
+.time-slots{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.time-slot{margin:0;padding:12px 5px;border:0;border-radius:7px;font-size:13px;font-weight:bold;cursor:pointer}
+#slot-message{margin-top:12px;font-size:14px;color:#0755a5}
+.time-info{margin-top:12px;color:#64748b;font-size:13px}
+.links{text-align:center;margin-top:22px}
+.links a{margin:8px}
+footer{background:#073b75;color:white;text-align:center;padding:18px}
+@media(max-width:600px){
+.navbar{flex-direction:column;gap:12px}
+.container{margin:20px 15px 35px;padding:22px}
+.page-heading h1{font-size:27px}
+.time-slots{grid-template-columns:repeat(2,1fr)}
+.calendar-grid{gap:4px}
+}
+</style>
 </head>
 
 <body>
-
 <nav class="navbar">
-    <div class="logo">MediCare Hospital</div>
-    <a href="/">Home</a>
+<div class="logo">MediCare Hospital</div>
+<a href="/">Home</a>
 </nav>
 
 <div class="page-heading">
-    <h1>Book Your Appointment</h1>
-    <p>Schedule your visit with our experienced doctors.</p>
+<h1>Book Your Appointment</h1>
+<p>Schedule your visit with our experienced doctors.</p>
 </div>
 
 <div class="container">
 
-    {% if error %}
-        <div class="message error">
-            {{ error }}
-        </div>
-    {% endif %}
+{% if error %}
+<div class="message error">{{ error }}</div>
+{% endif %}
 
-    {% if success %}
-
-        <div class="message success">
-            <h3>Appointment Booked Successfully!</h3>
-            <p>Your appointment has been saved.</p>
-        </div>
-
-        <div class="links">
-            <a href="/">Home</a>
-
-            {% if user.is_authenticated and user.patient_profile %}
-                <a href="{% url 'patient_dashboard' %}">My Dashboard</a>
-            {% endif %}
-
-            <a href="/booking/">Book Another Appointment</a>
-        </div>
-
-    {% else %}
-
-        <h2>Appointment Details</h2>
-
-        <form method="POST" id="booking-form">
-            {% csrf_token %}
-
-            {% if user.is_authenticated and user.patient_profile %}
-
-                <div class="patient-info">
-                    Your account details are automatically filled.
-                </div>
-
-                <label>Patient Name</label>
-                <input type="text" name="patient_name"
-                       value="{{ user.username }}" readonly>
-
-                <label>Mobile Number</label>
-                <input type="tel" name="mobile_number"
-                       value="{{ user.patient_profile.mobile_number }}" readonly>
-
-                <label>Email</label>
-                <input type="email" name="email"
-                       value="{{ user.email }}" readonly>
-
-            {% else %}
-
-                <label>Patient Name</label>
-                <input type="text" name="patient_name" required>
-
-                <label>Mobile Number</label>
-                <input type="tel" name="mobile_number"
-                       pattern="[0-9]{10}" maxlength="10" required>
-
-                <label>Email</label>
-                <input type="email" name="email" required>
-
-            {% endif %}
-
-            <label>Select Doctor</label>
-            <select name="doctor" id="doctor" required>
-                <option value="">-- Select Doctor --</option>
-                <option value="Dr. Sharma">Dr. Sharma - General Physician</option>
-                <option value="Dr. Khan">Dr. Khan - Cardiologist</option>
-                <option value="Dr. Reddy">Dr. Reddy - Dermatologist</option>
-            </select>
-
-            <label>Appointment Date</label>
-            <input type="date" name="appointment_date"
-                   id="appointment_date" min="{{ today }}" required>
-
-            <label>Appointment Time</label>
-            <select name="appointment_time" id="appointment_time" required>
-                <option value="">-- Select Appointment Time --</option>
-
-                <option value="09:00" data-slot>9:00 AM</option>
-                <option value="10:00" data-slot>10:00 AM</option>
-                <option value="11:00" data-slot>11:00 AM</option>
-                <option value="12:00" data-slot>12:00 PM</option>
-                <option value="13:00" data-slot>1:00 PM</option>
-
-                <option value="" disabled>2:00 PM - Lunch Break</option>
-
-                <option value="15:00" data-slot>3:00 PM</option>
-                <option value="16:00" data-slot>4:00 PM</option>
-                <option value="17:00" data-slot>5:00 PM</option>
-                <option value="18:00" data-slot>6:00 PM</option>
-                <option value="19:00" data-slot>7:00 PM</option>
-                <option value="20:00" data-slot>8:00 PM</option>
-                <option value="21:00" data-slot>9:00 PM</option>
-            </select>
-
-            <p class="time-info">
-                Hospital timings: 9:00 AM to 9:00 PM.
-                2:00 PM is reserved for lunch.
-            </p>
-
-            <p id="slot-message">
-                Please select a doctor and appointment date to check availability.
-            </p>
-
-            <label>Reason for Appointment</label>
-            <textarea name="reason" rows="4"
-                      placeholder="Enter your reason for appointment"></textarea>
-
-            <button type="submit">Book Appointment</button>
-        </form>
-
-        <div class="links">
-            <a href="/">Back to Home</a>
-        </div>
-
-    {% endif %}
-
+{% if success %}
+<div class="message success">
+<h3>Appointment Booked Successfully!</h3>
+<p>Your appointment has been confirmed successfully.</p>
+</div>
+<div class="links">
+<a href="/">Home</a>
+{% if user.is_authenticated and user.patient_profile %}
+<a href="{% url 'patient_dashboard' %}">My Dashboard</a>
+{% endif %}
+<a href="/booking/">Book Another Appointment</a>
 </div>
 
-<footer>
-    <p>© 2026 MediCare Hospital. All Rights Reserved.</p>
-</footer>
+{% else %}
+
+<h2>Appointment Details</h2>
+
+<form method="POST" id="booking-form">
+{% csrf_token %}
+
+{% if user.is_authenticated and user.patient_profile %}
+<div class="patient-info">Your account details are automatically filled.</div>
+<label>Patient Name</label>
+<input type="text" name="patient_name" value="{{ user.username }}" readonly>
+<label>Mobile Number</label>
+<input type="tel" name="mobile_number" value="{{ user.patient_profile.mobile_number }}" readonly>
+<label>Email</label>
+<input type="email" name="email" value="{{ user.email }}" readonly>
+{% else %}
+<label>Patient Name</label>
+<input type="text" name="patient_name" required>
+<label>Mobile Number</label>
+<input type="tel" name="mobile_number" pattern="[0-9]{10}" maxlength="10" required>
+<label>Email</label>
+<input type="email" name="email" required>
+{% endif %}
+
+<label>Select Doctor</label>
+<select name="doctor" id="doctor" required>
+<option value="">-- Select Doctor --</option>
+{% for value, label in doctor_choices %}
+<option value="{{ value }}">{{ label }}</option>
+{% empty %}
+<option value="Dr. Sharma">Dr. Sharma - General Physician</option>
+<option value="Dr. Khan">Dr. Khan - Cardiologist</option>
+<option value="Dr. Reddy">Dr. Reddy - Dermatologist</option>
+{% endfor %}
+</select>
+
+<label>Appointment Date</label>
+<input type="hidden" name="appointment_date" id="appointment_date">
+
+<div class="calendar-box">
+<div class="calendar-header">
+<button type="button" id="prev-month">❮</button>
+<h3 id="calendar-month"></h3>
+<button type="button" id="next-month">❯</button>
+</div>
+<div class="calendar-legend">
+<span class="dot green-dot"></span> Available
+<span class="dot red-dot"></span> Fully Booked
+<span class="dot grey-dot"></span> Past
+</div>
+<div class="calendar-grid" id="calendar-days">
+<span>Sun</span><span>Mon</span><span>Tue</span>
+<span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+</div>
+</div>
+
+<label>Appointment Time</label>
+<input type="hidden" name="appointment_time" id="appointment_time">
+
+<div class="time-legend">
+<span class="dot green-dot"></span> Available
+<span class="dot red-dot"></span> Already Booked
+<span class="dot grey-dot"></span> Unavailable
+</div>
+
+<div id="time-slots" class="time-slots">
+Please select a date first.
+</div>
+
+<p class="time-info">
+Hospital timings: 9:00 AM to 9:00 PM. 2:00 PM is reserved for lunch.
+</p>
+<p id="slot-message">Green dates and times are available. Red ones are booked.</p>
+
+<label>Reason for Appointment</label>
+<textarea name="reason" rows="4" placeholder="Enter your reason for appointment"></textarea>
+
+<button type="submit" class="submit-btn">Book Appointment</button>
+</form>
+
+<div class="links"><a href="/">Back to Home</a></div>
+{% endif %}
+</div>
+
+<footer><p>© 2026 MediCare Hospital. All Rights Reserved.</p></footer>
 
 <script>
-    const doctorSelect = document.getElementById('doctor');
-    const dateInput = document.getElementById('appointment_date');
-    const timeSelect = document.getElementById('appointment_time');
-    const slotMessage = document.getElementById('slot-message');
+const doctorSelect=document.getElementById('doctor');
+const dateInput=document.getElementById('appointment_date');
+const timeInput=document.getElementById('appointment_time');
+const calendarDays=document.getElementById('calendar-days');
+const calendarMonth=document.getElementById('calendar-month');
+const timeSlotsContainer=document.getElementById('time-slots');
+const slotMessage=document.getElementById('slot-message');
+const availableSlotsUrl="{% url 'available_slots' %}";
 
-    const availableSlotsUrl = "{% url 'available_slots' %}";
+if(doctorSelect){
+    const today=new Date();
+    today.setHours(0,0,0,0);
 
-    async function updateAvailableSlots() {
+    let currentYear=today.getFullYear();
+    let currentMonth=today.getMonth();
+    let fullyBookedDates=[];
+    let selectedDate='';
 
-        const doctor = doctorSelect.value;
-        const selectedDate = dateInput.value;
+    const slotTimes=[
+        {value:'09:00',label:'9:00 AM'},
+        {value:'10:00',label:'10:00 AM'},
+        {value:'11:00',label:'11:00 AM'},
+        {value:'12:00',label:'12:00 PM'},
+        {value:'13:00',label:'1:00 PM'},
+        {value:'15:00',label:'3:00 PM'},
+        {value:'16:00',label:'4:00 PM'},
+        {value:'17:00',label:'5:00 PM'},
+        {value:'18:00',label:'6:00 PM'},
+        {value:'19:00',label:'7:00 PM'},
+        {value:'20:00',label:'8:00 PM'},
+        {value:'21:00',label:'9:00 PM'}
+    ];
 
-        const slotOptions = timeSelect.querySelectorAll('[data-slot]');
+    function formatDate(year,month,day){
+        return year+'-'+String(month+1).padStart(2,'0')+'-'+String(day).padStart(2,'0');
+    }
 
-        slotOptions.forEach(option => {
-            option.disabled = false;
+    function resetTimeSlots(message){
+        timeInput.value='';
+        timeSlotsContainer.innerHTML='';
+        timeSlotsContainer.textContent=message;
+    }
 
-            const originalText = option.dataset.originalText;
-
-            if (originalText) {
-                option.textContent = originalText;
-            } else {
-                option.dataset.originalText = option.textContent;
-            }
-        });
-
-        timeSelect.value = '';
-
-        if (!doctor || !selectedDate) {
-            slotMessage.textContent =
-                'Please select a doctor and appointment date.';
-            return;
+    async function getAvailability(dateValue=''){
+        const url=new URL(availableSlotsUrl,window.location.origin);
+        if(doctorSelect.value){
+            url.searchParams.set('doctor',doctorSelect.value);
         }
+        url.searchParams.set('month',currentYear+'-'+String(currentMonth+1).padStart(2,'0'));
+        if(dateValue) url.searchParams.set('date',dateValue);
 
-        slotMessage.textContent = 'Checking available timings...';
+        const response=await fetch(url);
+        if(!response.ok) throw new Error('Availability request failed');
+        return await response.json();
+    }
 
-        try {
-            const url = new URL(availableSlotsUrl, window.location.origin);
+    async function renderCalendar(){
+        calendarMonth.textContent=new Date(currentYear,currentMonth).toLocaleString('en-US',{month:'long',year:'numeric'});
+        calendarDays.innerHTML='<span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>';
 
-            url.searchParams.set('doctor', doctor);
-            url.searchParams.set('date', selectedDate);
+        slotMessage.textContent='Checking calendar availability...';
 
-            const response = await fetch(url);
+        try{
+            const data=await getAvailability();
+            fullyBookedDates=data.fully_booked_dates||[];
 
-            if (!response.ok) {
-                throw new Error('Unable to check availability.');
+            const firstDay=new Date(currentYear,currentMonth,1).getDay();
+            const daysInMonth=new Date(currentYear,currentMonth+1,0).getDate();
+
+            for(let i=0;i<firstDay;i++){
+                const empty=document.createElement('span');
+                empty.className='calendar-day empty';
+                calendarDays.appendChild(empty);
             }
 
-            const data = await response.json();
-            const bookedSlots = data.booked_slots || [];
+            for(let day=1;day<=daysInMonth;day++){
+                const dateValue=formatDate(currentYear,currentMonth,day);
+                const button=document.createElement('button');
+                button.type='button';
+                button.className='calendar-day';
+                button.textContent=day;
 
-            slotOptions.forEach(option => {
-                if (bookedSlots.includes(option.value)) {
-                    option.disabled = true;
-                    option.textContent =
-                        option.dataset.originalText + ' (Already Booked)';
+                const selected=new Date(currentYear,currentMonth,day);
+                selected.setHours(0,0,0,0);
+
+                if(selected<today){
+                    button.classList.add('past');
+                    button.disabled=true;
+                }else if(fullyBookedDates.includes(dateValue)){
+                    button.classList.add('booked');
+                    button.disabled=true;
+                    button.title='Fully booked';
+                }else{
+                    button.classList.add('available');
+                    if(selectedDate===dateValue) button.classList.add('selected');
+                    button.addEventListener('click',()=>selectDate(dateValue));
                 }
-            });
 
-            const availableCount = [...slotOptions].filter(
-                option => !option.disabled
-            ).length;
-
-            if (availableCount === 0) {
-                slotMessage.textContent =
-                    'Sorry! No appointment slots are available for this doctor on this date.';
-            } else {
-                slotMessage.textContent =
-                    availableCount + ' appointment slots are available.';
+                calendarDays.appendChild(button);
             }
 
-        } catch (error) {
-            slotMessage.textContent =
-                'Could not check availability. Please refresh the page and try again.';
+            slotMessage.textContent=doctorSelect.value
+                ? 'Calendar shows availability for the selected doctor.'
+                : 'Calendar shows availability across all doctors.';
 
+        }catch(error){
+            slotMessage.textContent='Could not load calendar availability.';
             console.error(error);
         }
     }
 
-    if (doctorSelect && dateInput && timeSelect) {
-        doctorSelect.addEventListener('change', updateAvailableSlots);
-        dateInput.addEventListener('change', updateAvailableSlots);
+    async function selectDate(dateValue){
+        selectedDate=dateValue;
+        dateInput.value=dateValue;
+        timeInput.value='';
+        await renderCalendar();
+        await renderTimeSlots(dateValue);
     }
-</script>
 
+    async function renderTimeSlots(dateValue){
+        timeSlotsContainer.innerHTML='';
+        timeInput.value='';
+        slotMessage.textContent='Checking time availability...';
+
+        try{
+            const data=await getAvailability(dateValue);
+            const bookedSlots=data.booked_slots||[];
+            let availableCount=0;
+
+            slotTimes.forEach(slot=>{
+                const button=document.createElement('button');
+                button.type='button';
+                button.className='time-slot';
+                button.textContent=slot.label;
+
+                if(bookedSlots.includes(slot.value)){
+                    button.classList.add('booked');
+                    button.textContent+=' - Booked';
+                    button.disabled=true;
+                }else{
+                    button.classList.add('available');
+                    availableCount++;
+
+                    button.addEventListener('click',()=>{
+                        document.querySelectorAll('.time-slot.selected').forEach(item=>{
+                            item.classList.remove('selected');
+                            item.classList.add('available');
+                        });
+                        button.classList.remove('available');
+                        button.classList.add('selected');
+                        timeInput.value=slot.value;
+                        slotMessage.textContent='Selected time: '+slot.label;
+                    });
+                }
+
+                timeSlotsContainer.appendChild(button);
+            });
+
+            if(availableCount===0){
+                slotMessage.textContent='All time slots are booked for this date.';
+            }else{
+                slotMessage.textContent=availableCount+' time slots are available.';
+            }
+        }catch(error){
+            slotMessage.textContent='Could not check time availability.';
+            console.error(error);
+        }
+    }
+
+    doctorSelect.addEventListener('change',async()=>{
+        selectedDate='';
+        dateInput.value='';
+        resetTimeSlots('Please select an appointment date.');
+        await renderCalendar();
+    });
+
+    document.getElementById('prev-month').addEventListener('click',()=>{
+        currentMonth--;
+        if(currentMonth<0){currentMonth=11;currentYear--;}
+        if(new Date(currentYear,currentMonth+1,0)<today){
+            currentYear=today.getFullYear();
+            currentMonth=today.getMonth();
+        }
+        selectedDate='';
+        dateInput.value='';
+        resetTimeSlots('Please select an appointment date.');
+        renderCalendar();
+    });
+
+    document.getElementById('next-month').addEventListener('click',()=>{
+        currentMonth++;
+        if(currentMonth>11){currentMonth=0;currentYear++;}
+        selectedDate='';
+        dateInput.value='';
+        resetTimeSlots('Please select an appointment date.');
+        renderCalendar();
+    });
+
+    document.getElementById('booking-form').addEventListener('submit',event=>{
+        if(!dateInput.value||!timeInput.value){
+            event.preventDefault();
+            slotMessage.textContent='Please select an available date and time.';
+        }
+    });
+
+    resetTimeSlots('Please select a date first.');
+    renderCalendar();
+}
+</script>
 </body>
 </html>

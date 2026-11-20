@@ -155,7 +155,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 1100px;
+            min-width: 1050px;
         }
 
         th {
@@ -181,21 +181,6 @@
             background: #ecfeff;
         }
 
-        .status-form {
-            display: flex;
-            gap: 6px;
-            align-items: center;
-        }
-
-        .status-form select {
-            max-width: 125px;
-            padding: 8px;
-        }
-
-        .status-form button {
-            padding: 9px 11px;
-        }
-
         .details {
             display: inline-block;
             background: #2563eb;
@@ -210,13 +195,23 @@
             background: #1d4ed8;
         }
 
-        .delete {
+        .cancel {
             background: #dc2626;
             padding: 9px 12px;
         }
 
-        .delete:hover {
+        .cancel:hover {
             background: #b91c1c;
+        }
+
+        .cancelled {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .not-available {
+            color: #64748b;
+            font-weight: bold;
         }
 
         .empty {
@@ -317,9 +312,8 @@
                         <th>Date</th>
                         <th>Time</th>
                         <th>Status</th>
-                        <th>Update Status</th>
                         <th>Details</th>
-                        <th>Delete</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
 
@@ -345,27 +339,6 @@
                         <td>{{ appointment.status }}</td>
 
                         <td>
-                            <form method="POST"
-                                  action="{% url 'update_status' appointment.id %}"
-                                  class="status-form">
-
-                                {% csrf_token %}
-
-                                <select name="status">
-                                    {% for value, label in status_choices %}
-                                        <option value="{{ value }}"
-                                            {% if appointment.status == value %}selected{% endif %}>
-                                            {{ label }}
-                                        </option>
-                                    {% endfor %}
-                                </select>
-
-                                <button type="submit">Update</button>
-
-                            </form>
-                        </td>
-
-                        <td>
                             <a class="details"
                                href="{% url 'appointment_details' appointment.id %}">
                                 View
@@ -373,24 +346,36 @@
                         </td>
 
                         <td>
-                            <form method="POST"
-                                  action="{% url 'delete_appointment' appointment.id %}"
-                                  onsubmit="return confirm('Delete this appointment?');">
+                            {% if appointment.status == 'Pending' or appointment.status == 'Confirmed' %}
 
-                                {% csrf_token %}
+                                <form method="POST"
+                                      action="{% url 'receptionist_cancel' appointment.id %}"
+                                      onsubmit="return confirm('Cancel this appointment?');">
 
-                                <button class="delete" type="submit">
-                                    Delete
-                                </button>
+                                    {% csrf_token %}
 
-                            </form>
+                                    <button class="cancel" type="submit">
+                                        Cancel
+                                    </button>
+
+                                </form>
+
+                            {% elif appointment.status == 'Cancelled' %}
+
+                                <span class="cancelled">Cancelled</span>
+
+                            {% else %}
+
+                                <span class="not-available">Not Available</span>
+
+                            {% endif %}
                         </td>
                     </tr>
 
                     {% empty %}
 
                     <tr>
-                        <td colspan="11" class="empty">
+                        <td colspan="10" class="empty">
                             No appointments found.
                         </td>
                     </tr>

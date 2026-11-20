@@ -4,6 +4,7 @@ from datetime import date, time
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import AuthenticationForm
+from django.db import IntegrityError
 from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -31,7 +32,6 @@ def home(request):
         'confirmed_appointments': Appointment.objects.filter(status='Confirmed').count(),
         'completed_appointments': Appointment.objects.filter(status='Completed').count(),
     }
-
     return render(request, 'appointments/index.html', context)
 
 
@@ -59,12 +59,13 @@ def booking(request):
     }
 
     if request.method == 'POST':
-        appointment_date = request.POST.get('appointment_date')
-        appointment_time = request.POST.get('appointment_time')
-
         try:
-            selected_date = date.fromisoformat(appointment_date)
-            selected_time = time.fromisoformat(appointment_time)
+            selected_date = date.fromisoformat(
+                request.POST.get('appointment_date')
+            )
+            selected_time = time.fromisoformat(
+                request.POST.get('appointment_time')
+            )
         except (ValueError, TypeError):
             context['error'] = 'Please enter a valid date and time.'
             return render(request, 'appointments/booking.html', context)
@@ -83,75 +84,133 @@ def booking(request):
             context['error'] = 'Please select a future appointment time.'
             return render(request, 'appointments/booking.html', context)
 
-        if request.user.is_authenticated and hasattr(request.user, 'patient_profile'):
-            profile = request.user.patient_profile
-            patient_name = request.user.username
-            mobile_number = profile.mobile_number
-            email = request.user.email
-        else:
-            patient_name = request.POST.get('patient_name')
-            mobile_number = request.POST.get('mobile_number')
-            email = request.POST.get('email')
-
         doctor = request.POST.get('doctor')
 
         if doctor not in dict(Appointment.DOCTOR_CHOICES):
             context['error'] = 'Please select a valid doctor.'
             return render(request, 'appointments/booking.html', context)
 
-        already_booked = Appointment.objects.filter(
-            doctor=doctor,
-            appointment_date=selected_date,
-            appointment_time=selected_time,
-            status__in=['Pending', 'Confirmed', 'Completed']
-        ).exists()
+        profile = request.user.patient_profile
 
-        if already_booked:
+        try:
+            Appointment.objects.create(
+                patient_name=request.user.username,
+                mobile_number=profile.mobile_number,
+                email=request.user.email,
+                doctor=doctor,
+                appointment_date=selected_date,
+                appointment_time=selected_time,
+                reason=request.POST.get('reason'),
+                 status='Confirmed'
+            )
+        except IntegrityError:
             context['error'] = 'This time slot is already booked.'
             return render(request, 'appointments/booking.html', context)
 
-        Appointment.objects.create(
-            patient_name=patient_name,
-            mobile_number=mobile_number,
-            email=email,
-            doctor=doctor,
-            appointment_date=selected_date,
-            appointment_time=selected_time,
-            reason=request.POST.get('reason')
-        )
-
         context['success'] = True
-        return render(request, 'appointments/booking.html', context)
 
     return render(request, 'appointments/booking.html', context)
 
 
-# Available Appointment Slots
+
+# Available Appointment Slots and Dates
 def available_slots(request):
-    doctor = request.GET.get('doctor')
+    from calendar import monthrange
+
+    doctor = request.GET.get('doctor', '')
     appointment_date = request.GET.get('date')
+    selected_month = request.GET.get('month')
 
-    if doctor not in dict(Appointment.DOCTOR_CHOICES) or not appointment_date:
-        return JsonResponse({'booked_slots': []})
+    doctors = [choice[0] for choice in Appointment.DOCTOR_CHOICES]
 
-    try:
-        selected_date = date.fromisoformat(appointment_date)
-    except (ValueError, TypeError):
-        return JsonResponse({'booked_slots': []})
+    if doctor and doctor not in doctors:
+        return JsonResponse({
+            'booked_slots': [],
+            'available_slots': [],
+            'fully_booked_dates': []
+        })
 
-    booked_slots = Appointment.objects.filter(
-        doctor=doctor,
-        appointment_date=selected_date,
+    all_slots = [
+        time(9, 0), time(10, 0), time(11, 0),
+        time(12, 0), time(13, 0),
+        time(15, 0), time(16, 0),
+        time(17, 0), time(18, 0),
+        time(19, 0), time(20, 0), time(21, 0)
+    ]
+
+    active_appointments = Appointment.objects.filter(
         status__in=['Pending', 'Confirmed', 'Completed']
-    ).values_list('appointment_time', flat=True)
+    )
 
-    booked_times = [slot.strftime('%H:%M') for slot in booked_slots]
+    selected_doctors = [doctor] if doctor else doctors
 
-    return JsonResponse({'booked_slots': booked_times})
+    fully_booked_dates = []
+
+    if selected_month:
+        try:
+            year, month = map(int, selected_month.split('-'))
+            days_in_month = monthrange(year, month)[1]
+
+            for day in range(1, days_in_month + 1):
+                current_date = date(year, month, day)
+                all_doctors_full = True
+
+                for doc in selected_doctors:
+                    booked = set(
+                        active_appointments.filter(
+                            doctor=doc,
+                            appointment_date=current_date
+                        ).values_list('appointment_time', flat=True)
+                    )
+
+                    if not all(slot in booked for slot in all_slots):
+                        all_doctors_full = False
+                        break
+
+                if all_doctors_full:
+                    fully_booked_dates.append(current_date.isoformat())
+
+        except (ValueError, TypeError):
+            pass
+
+    booked_slots = []
+    available_slots = []
+
+    if appointment_date:
+        try:
+            selected_date = date.fromisoformat(appointment_date)
+
+            for slot in all_slots:
+                booked_for_all = True
+
+                for doc in selected_doctors:
+                    exists = active_appointments.filter(
+                        doctor=doc,
+                        appointment_date=selected_date,
+                        appointment_time=slot
+                    ).exists()
+
+                    if not exists:
+                        booked_for_all = False
+                        break
+
+                if booked_for_all:
+                    booked_slots.append(slot.strftime('%H:%M'))
+                else:
+                    available_slots.append(slot.strftime('%H:%M'))
+
+        except (ValueError, TypeError):
+            pass
+
+    return JsonResponse({
+        'booked_slots': booked_slots,
+        'available_slots': available_slots,
+        'fully_booked_dates': fully_booked_dates
+    })
 
 
 # Receptionist Dashboard
-@login_required
+@receptionist_required
 def receptionist_dashboard(request):
     search_query = request.GET.get('q', '')
     doctor_filter = request.GET.get('doctor', '')
@@ -178,7 +237,8 @@ def receptionist_dashboard(request):
     })
 
 
-@login_required
+# Update Appointment Status
+@receptionist_required
 def update_appointment_status(request, appointment_id):
     if request.method == 'POST':
         appointment = get_object_or_404(Appointment, id=appointment_id)
@@ -191,7 +251,8 @@ def update_appointment_status(request, appointment_id):
     return redirect('receptionist')
 
 
-@login_required
+# Delete Appointment
+@receptionist_required
 def delete_appointment(request, appointment_id):
     if request.method == 'POST':
         appointment = get_object_or_404(Appointment, id=appointment_id)
@@ -200,7 +261,8 @@ def delete_appointment(request, appointment_id):
     return redirect('receptionist')
 
 
-@login_required
+# Appointment Details
+@receptionist_required
 def appointment_details(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id)
 
@@ -209,7 +271,8 @@ def appointment_details(request, appointment_id):
     })
 
 
-@login_required
+# Patient History
+@receptionist_required
 def patient_history(request):
     mobile_number = request.GET.get('mobile', '')
     appointments = Appointment.objects.none()
@@ -244,14 +307,14 @@ def user_login(request):
     return render(request, 'appointments/login.html', {'form': form})
 
 
-@login_required
+# Receptionist Logout
+@receptionist_required
 def user_logout(request):
     logout(request)
     return redirect('home')
 
 
 # Patient Registration
-
 def patient_register(request):
     next_url = request.POST.get('next') or request.GET.get('next')
 
@@ -277,7 +340,6 @@ def patient_register(request):
                 return redirect(f"{reverse('patient_login')}?next={next_url}")
 
             return redirect('patient_login')
-
     else:
         form = PatientRegistrationForm()
 
@@ -315,6 +377,7 @@ def patient_login(request):
         'form': form
     })
 
+
 # Patient Dashboard
 @login_required(login_url='patient_login')
 def patient_dashboard(request):
@@ -337,10 +400,11 @@ def patient_dashboard(request):
 @login_required(login_url='patient_login')
 def patient_logout(request):
     if not hasattr(request.user, 'patient_profile'):
-        return redirect('login')
+        return redirect('home')
 
     logout(request)
     return redirect('home')
+
 
 # Patient Appointment Cancellation
 @login_required(login_url='patient_login')
@@ -364,81 +428,16 @@ def cancel_patient_appointment(request, appointment_id):
     return redirect('patient_dashboard')
 
 
-# Doctor Accounts
-DOCTOR_ACCOUNTS = {
-    'dr_sharma': 'Dr. Sharma',
-    'dr_khan': 'Dr. Khan',
-    'dr_reddy': 'Dr. Reddy',
-}
-
-# Doctor Security
-def doctor_required(view_func):
-    return user_passes_test(
-        lambda user: user.is_authenticated and user.username in DOCTOR_ACCOUNTS,
-        login_url='doctor_login'
-    )(view_func)    
-
-# Doctor Login
-def doctor_login(request):
+@receptionist_required
+def cancel_receptionist_appointment(request, appointment_id):
     if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
+        appointment = get_object_or_404(
+            Appointment,
+            id=appointment_id
+        )
 
-        if form.is_valid():
-            user = form.get_user()
-
-            if user.username in DOCTOR_ACCOUNTS:
-                login(request, user)
-                return redirect('doctor_dashboard')
-
-            form.add_error(None, 'Doctor account not found.')
-    else:
-        form = AuthenticationForm()
-
-    return render(request, 'appointments/doctor_login.html', {
-        'form': form
-    })
-
-
-# Doctor Dashboard
-@login_required
-def doctor_dashboard(request):
-    doctor_name = DOCTOR_ACCOUNTS.get(request.user.username)
-
-    if not doctor_name:
-        logout(request)
-        return redirect('doctor_login')
-
-    if request.method == 'POST':
-        appointment_id = request.POST.get('appointment_id')
-        new_status = request.POST.get('status')
-
-        if new_status in ['Confirmed', 'Completed']:
-            appointment = get_object_or_404(
-                Appointment,
-                id=appointment_id,
-                doctor=doctor_name
-            )
-
-            appointment.status = new_status
+        if appointment.status in ['Pending', 'Confirmed']:
+            appointment.status = 'Cancelled'
             appointment.save()
 
-        return redirect('doctor_dashboard')
-
-    appointments = Appointment.objects.filter(
-        doctor=doctor_name
-    ).order_by('-appointment_date', '-appointment_time')
-
-    return render(request, 'appointments/doctor_dashboard.html', {
-        'doctor_name': doctor_name,
-        'appointments': appointments
-    })
-
-
-# Doctor Logout
-@login_required
-def doctor_logout(request):
-    if request.user.username not in DOCTOR_ACCOUNTS:
-        return redirect('home')
-
-    logout(request)
-    return redirect('doctor_login')
+    return redirect('receptionist')

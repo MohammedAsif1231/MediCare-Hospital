@@ -11,6 +11,11 @@ urlpatterns = [
 
     # Receptionist
     path('receptionist/', views.receptionist_dashboard, name='receptionist'),
+    path(
+        'receptionist/cancel/<int:appointment_id>/',
+        views.cancel_receptionist_appointment,
+        name='receptionist_cancel'
+    ),
     path('login/', views.user_login, name='login'),
     path('logout/', views.user_logout, name='logout'),
 
@@ -25,26 +30,13 @@ urlpatterns = [
         name='cancel_patient_appointment'
     ),
 
-    # Doctor
-    path('doctor/login/', views.doctor_login, name='doctor_login'),
-    path('doctor/dashboard/', views.doctor_dashboard, name='doctor_dashboard'),
-    path('doctor/logout/', views.doctor_logout, name='doctor_logout'),
-
-    # Appointment Management
-    path(
-        'update-status/<int:appointment_id>/',
-        views.update_appointment_status,
-        name='update_status'
-    ),
-    path(
-        'delete-appointment/<int:appointment_id>/',
-        views.delete_appointment,
-        name='delete_appointment'
-    ),
+    # Appointment Details
     path(
         'appointment-details/<int:appointment_id>/',
         views.appointment_details,
         name='appointment_details'
     ),
+
+    # Patient History
     path('patient-history/', views.patient_history, name='patient_history'),
 ]

@@ -1,13 +1,13 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>MediCare Hospital | Your Health, Our Priority</title>
-
-    <link rel="stylesheet" href="{% static 'appointments/style.css' %}"></head>
+    <link rel="stylesheet" href="{% static 'appointments/style.css' %}">
+</head>
 
 <body>
 
@@ -30,8 +30,6 @@
                 {% if user.is_authenticated %}
                     {% if user.patient_profile %}
                         <a href="{% url 'patient_dashboard' %}">My Dashboard</a>
-                    {% elif user.username == 'dr_sharma' or user.username == 'dr_khan' or user.username == 'dr_reddy' %}
-                        <a href="{% url 'doctor_dashboard' %}">Doctor Dashboard</a>
                     {% elif user.is_staff or user.is_superuser %}
                         <a href="{% url 'receptionist' %}">Dashboard</a>
                     {% endif %}
@@ -45,19 +43,15 @@
     <!-- HERO SECTION -->
     <section class="hero">
         <div class="hero-content">
-
             <h1>Your Health Is Our First Priority</h1>
-
             <p>
                 Welcome to MediCare Hospital.
                 Get quality healthcare, expert doctors
                 and easy online appointment booking.
             </p>
-
             <a href="{% url 'booking' %}">
                 Book Your Appointment →
             </a>
-
         </div>
     </section>
 
@@ -75,17 +69,6 @@
                 </a>
 
                 <a href="{% url 'patient_logout' %}">
-                    Logout
-                </a>
-
-            {% elif user.username == 'dr_sharma' or user.username == 'dr_khan' or user.username == 'dr_reddy' %}
-                <p>Welcome, Doctor!</p>
-
-                <a href="{% url 'doctor_dashboard' %}" class="doctor">
-                    Doctor Dashboard
-                </a>
-
-                <a href="{% url 'doctor_logout' %}" class="doctor">
                     Logout
                 </a>
 
@@ -115,17 +98,12 @@
                 Receptionist Login
             </a>
 
-            <a href="{% url 'doctor_login' %}" class="doctor">
-                Doctor Login
-            </a>
-
         {% endif %}
     </section>
 
     <!-- ABOUT SECTION -->
     <section class="about" id="about">
         <h2>About MediCare Hospital</h2>
-
         <p>
             MediCare Hospital is committed to providing
             quality healthcare services with experienced
@@ -139,7 +117,6 @@
         <h2>Meet Our Doctors</h2>
 
         <div class="doctor-container">
-
             <div class="doctor-card">
                 <h3>Dr. Sharma</h3>
                 <p>General Physician</p>
@@ -154,7 +131,6 @@
                 <h3>Dr. Reddy</h3>
                 <p>Dermatologist</p>
             </div>
-
         </div>
     </section>
 
@@ -163,31 +139,20 @@
         <h2>Our Medical Services</h2>
 
         <div class="service-container">
-
             <div class="service-card">
                 <h3>General Checkup</h3>
-                <p>
-                    Regular health checkups and
-                    medical consultations.
-                </p>
+                <p>Regular health checkups and medical consultations.</p>
             </div>
 
             <div class="service-card">
                 <h3>Expert Doctors</h3>
-                <p>
-                    Consult experienced healthcare
-                    professionals.
-                </p>
+                <p>Consult experienced healthcare professionals.</p>
             </div>
 
             <div class="service-card">
                 <h3>Online Appointment</h3>
-                <p>
-                    Book your hospital appointment
-                    easily from anywhere.
-                </p>
+                <p>Book your hospital appointment easily from anywhere.</p>
             </div>
-
         </div>
     </section>
 
@@ -196,7 +161,6 @@
         <h2>Hospital Appointment Overview</h2>
 
         <div class="statistics-container">
-
             <div class="stat-card">
                 <h3>Total Appointments</h3>
                 <h1>{{ total_appointments|default:0 }}</h1>
@@ -216,14 +180,12 @@
                 <h3>Completed</h3>
                 <h1>{{ completed_appointments|default:0 }}</h1>
             </div>
-
         </div>
     </section>
 
     <!-- CONTACT SECTION -->
     <section class="contact" id="contact">
         <h2>Contact Us</h2>
-
         <p><strong>MediCare Hospital</strong></p>
         <p>Hyderabad, Telangana</p>
         <p>Email: medicare@example.com</p>
@@ -236,3 +198,4 @@
 
 </body>
 </html>
+```

@@ -1,5 +1,6 @@
 
 from django.db import models
+from django.db.models import Q
 from django.contrib.auth.models import User
 
 
@@ -38,6 +39,15 @@ class Appointment(models.Model):
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['doctor', 'appointment_date', 'appointment_time'],
+                condition=Q(status__in=['Pending', 'Confirmed', 'Completed']),
+                name='unique_active_doctor_slot'
+            )
+        ]
 
     def __str__(self):
         return self.patient_name
